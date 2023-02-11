@@ -3,7 +3,7 @@ import Header from './Header';
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <section>
+    <section className='font-neo'>
       <Header />
       {children}
     </section>
