@@ -1,20 +1,14 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
 import { FINANCIAL_INDEX } from 'lib/constants';
 import Image from 'next/image';
 import Logo from '../public/img/Logo.png';
+import { MainCategory } from 'lib/recoil/stateTypes';
+import { mainCategoryState } from 'lib/recoil/states';
+import { useRecoilState } from 'recoil';
+import Clock from './Clcok';
 
 const Header = () => {
-  const [time, setTime] = useState<Date>(new Date());
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const utcTime = time.toUTCString().replace('GMT', '');
-  const estTime = new Date(time.getTime() - 5 * 60 * 60 * 1000).toUTCString().replace('GMT', '');
+  const [mainCategory, setMainCategory] = useRecoilState<MainCategory>(mainCategoryState);
 
   return (
     <section className='w-full h-[260px] relative'>
@@ -30,26 +24,8 @@ const Header = () => {
             <span className='w-full'>SIGN UP</span>
           </div>
         </div>
-
         <div className='w-full h-full flex flex-row justify-end'>
-          <div className='w-full flex flex-col gap-10 justify-center items-end'>
-            <div id='clock' className='w-full h-20 flex flex-row justify-end items-center gap-5'>
-              <div className='flex flex-col'>
-                <label className='font-bold'>UTC</label>
-                <span>{utcTime}</span>
-              </div>
-              <div className='flex flex-col'>
-                <label className='font-bold'>EST</label>
-                <span>{estTime}</span>
-              </div>
-            </div>
-            <div className='w-full flex flex-row justify-end items-center gap-3'>
-              <div className='w-1/6 h-10 flex justify-end items-center'>
-                <span>SEARCH</span>
-              </div>
-              <input className='w-3/5 h-10 outline-none' type='text'/>
-            </div>
-          </div>
+          <Clock />
           <div
             id='newsSelectBox'
             className='w-[9rem] h-full flex flex-col  justify-center items-center text-center gap-1'
@@ -69,12 +45,18 @@ const Header = () => {
         </div>
       </section>
       <div className='w-[14rem] h-10 flex flex-row justify-center items-center fixed top-[14.9rem] left-7 shadow-xl'>
-        <div className='w-1/2 border border-r-0 h-full bg-window95-light-gray flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline'>
-          <button>Traditional</button>
-        </div>
-        <div className='w-1/2 border h-full bg-window95-light-gray flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline'>
-          <button>Crypto</button>
-        </div>
+        <button
+          className='w-1/2 border border-r-0 h-full bg-window95-light-gray flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline'
+          onClick={() => setMainCategory({ isTraditional: true, isCrypto: false })}
+        >
+          Traditional
+        </button>
+        <button
+          className='w-1/2 border h-full bg-window95-light-gray flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline'
+          onClick={() => setMainCategory({ isTraditional: false, isCrypto: true })}
+        >
+          Crypto
+        </button>
       </div>
     </section>
   );
