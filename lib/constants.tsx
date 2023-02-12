@@ -1,2 +1,3 @@
-export const NEWS_CATEGORY = ['cnbc', 'bbc', 'reuters', 'coindesk', 'cointelegraph', 'cryptoslate'];
+export const TRADITIONAL_CATEGORY = ['CNBC', 'BBC', 'REUTERS'];
+export const CRYPTO_CATEGORY = ['COINDESK', 'COINTELEGRARH', 'CRYPTOSLATE'];
 export const FINANCIAL_INDEX = ['DOW', 'NASDAQ', 'VIX', 'CRYPTO # GREED & FEAR', 'BITCOIN'];

@@ -4,7 +4,7 @@ import { MainCategory } from './stateTypes';
 export const mainCategoryState = atom<MainCategory>({
   key: 'mainCategory',
   default: {
-    isTraditional: true,
+    isTraditional: false,
     isCrypto: false,
   },
 });

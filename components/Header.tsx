@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
-import { FINANCIAL_INDEX } from 'lib/constants';
+import Router from 'next/router';
 import Image from 'next/image';
 import Logo from '../public/img/Logo.png';
+import { FINANCIAL_INDEX } from 'lib/constants';
 import { MainCategory } from 'lib/recoil/stateTypes';
 import { mainCategoryState } from 'lib/recoil/states';
 import { useRecoilState } from 'recoil';
@@ -10,15 +11,25 @@ import Clock from './Clcok';
 const Header = () => {
   const [mainCategory, setMainCategory] = useRecoilState<MainCategory>(mainCategoryState);
 
+  const handleChangeMainCategory = (isTraditional: boolean) => {
+    if (isTraditional) {
+      setMainCategory({ isTraditional: true, isCrypto: false });
+      Router.push('/traditional');
+    } else {
+      setMainCategory({ isTraditional: false, isCrypto: true });
+      Router.push('/crpyto');
+    }
+  };
+
   return (
     <section className='w-full h-[260px] relative'>
       <header className='w-full h-[30px] bg-window95-deep-gray border-[2px] border-window95-light-gray border-x-0' />
       <section className='w-full h-[230px] flex flex-row justify-between bg-window95-light-gray'>
         <div className='font-bold text-2xl flex flex-col items-center w-52 gap-5 mt-3 ml-[3.5rem]'>
-          <div>
+          <button onClick={() => Router.push('/')}>
             <Image src={Logo} width={100} height={100} alt='logo' />
             <span>NEWSQUIDS</span>
-          </div>
+          </button>
           <div className='flex flex-row gap-3 text-sm '>
             <span className='w-full'>SIGN IN</span>
             <span className='w-full'>SIGN UP</span>
@@ -44,16 +55,20 @@ const Header = () => {
           </div>
         </div>
       </section>
-      <div className='w-[14rem] h-10 flex flex-row justify-center items-center fixed top-[14.9rem] left-7 shadow-xl'>
+      <div className='w-[14rem] h-10 flex flex-row justify-center items-center absolute top-[14.9rem] left-7 shadow-xl'>
         <button
-          className='w-1/2 border border-r-0 h-full bg-window95-light-gray flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline'
-          onClick={() => setMainCategory({ isTraditional: true, isCrypto: false })}
+          className={`w-1/2 border-window95-button-deep-gray border border-r-0 h-full flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline ${
+            mainCategory.isTraditional ? 'bg-window95-button-deep-gray font-bold' : 'bg-window95-button-gray'
+          }`}
+          onClick={() => handleChangeMainCategory(true)}
         >
           Traditional
         </button>
         <button
-          className='w-1/2 border h-full bg-window95-light-gray flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline'
-          onClick={() => setMainCategory({ isTraditional: false, isCrypto: true })}
+          className={`w-1/2 border-window95-button-deep-gray border h-full flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline ${
+            mainCategory.isCrypto ? 'bg-window95-button-deep-gray font-bold' : ' bg-window95-button-gray'
+          }`}
+          onClick={() => handleChangeMainCategory(false)}
         >
           Crypto
         </button>
