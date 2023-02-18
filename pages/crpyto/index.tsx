@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import Layout from 'components/Layout';
-import { CRYPTO_CATEGORY } from 'lib/constants';
+import Layout from 'components/layout/Layout';
+import { CRYPTO_CATEGORY } from 'lib/utils/constants';
 
 const Crypto = () => {
   return (
@@ -10,9 +10,9 @@ const Crypto = () => {
         <div className='w-52 h-full flex flex-col justify-center items-center gap-10'>
           {CRYPTO_CATEGORY.map((value: string, index: number) => (
             <Fragment key={index}>
-              <div className='w-48 h-20 border flex justify-center items-center text-xl bg-window95-button-gray border-window95-button-deep-gray hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline shadow-inner'>
+              <button className='w-48 h-20 border flex justify-center items-center text-xl bg-window95-button-gray border-window95-button-deep-gray hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline shadow-inner'>
                 {value}
-              </div>
+              </button>
             </Fragment>
           ))}
         </div>

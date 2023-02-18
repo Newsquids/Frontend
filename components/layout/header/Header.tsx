@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import Router from 'next/router';
 import Image from 'next/image';
-import Logo from '../public/img/Logo.png';
-import { FINANCIAL_INDEX } from 'lib/constants';
+import Logo from 'public/img/Logo.png'
+import Clock from './Clock';
+import { FINANCIAL_INDEX } from 'lib/utils/constants';
 import { MainCategory } from 'lib/recoil/stateTypes';
 import { mainCategoryState } from 'lib/recoil/states';
 import { useRecoilState } from 'recoil';
-import Clock from './Clcok';
 
 const Header = () => {
   const [mainCategory, setMainCategory] = useRecoilState<MainCategory>(mainCategoryState);
