@@ -9,7 +9,7 @@ module.exports = {
       'window95-light-gray': '#C0C4C8',
       'window95-white' : '#F5F5F5',
       'window95-button-gray' : '#e5e5e5',
-      'window95-button-deep-gray' : '#d5d5d5'
+      'window95-button-deep-gray' : '#bdbdbd'
     },
     extend : {
       fontFamily :{

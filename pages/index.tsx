@@ -3,7 +3,7 @@ import Layout from 'components/layout/Layout';
 import { useResetRecoilState } from 'recoil';
 import { mainCategoryState } from 'lib/recoil/states';
 import NewsHeader from 'components/news/NewsHeadline';
-import News from 'components/news/News';
+import NewsBlock from 'components/news/NewsBlock';
 
 const Home = () => {
   const resetMainCategory = useResetRecoilState(mainCategoryState);
@@ -19,11 +19,11 @@ const Home = () => {
         transform -translate-y-1/5'>
           <span>Today&apos;s News</span>
         </div>
-        <News>
+        <NewsBlock isTodayNews>
+          {/* <NewsHeader isTodayNews/>
           <NewsHeader isTodayNews/>
-          <NewsHeader isTodayNews/>
-          <NewsHeader isTodayNews/>         
-        </News>
+          <NewsHeader isTodayNews/>          */}
+        </NewsBlock>
       </section>
     </Layout>
   );
