@@ -3,6 +3,7 @@ import { apis } from 'lib/api/axiosUtil';
 import { useRecoilState } from 'recoil';
 import { searchResultState } from 'lib/recoil/states';
 import { useRouter } from 'next/router';
+import Pagination from 'components/Pagination';
 
 const SearchBar = () => {
   const [search, setSearch] = useState<string>('');
@@ -12,6 +13,7 @@ const SearchBar = () => {
 
   const handleSearchNews = async () => {
     const searchNews = await apis.fetchSearchNews(page, search);
+    
     setSearchValue(searchNews);
     router.push('/search');
   };

@@ -13,7 +13,7 @@ const Search = () => {
     <Layout>
       <section className='w-full h-full flex flex-col justify-center items-center relative'>
         <div
-          className='w-80 h-16 bg-window95-button-gray flex justify-center items-center text-xl absolute top-[7%] z-10
+          className='w-80 h-16 bg-window95-button-gray flex justify-center items-center text-xl absolute top-[1%] z-10
         transform -translate-y-1/5'
         >
           <span>Result</span>

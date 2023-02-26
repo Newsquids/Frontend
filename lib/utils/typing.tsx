@@ -1,5 +1,5 @@
 export interface News {
-  lastPage: boolean;
+  pageNumber: number;
   newsItems: NewsItem[];
 }
 

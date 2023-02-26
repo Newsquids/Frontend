@@ -20,7 +20,7 @@ const Alert: FC<AlertProps> = ({ message, modalClose }) => {
         z-[10000] bg-[#C3C7CC] '
         >
           <div className='w-[425px] h-9 top-1 absolute bg-[#1600AB] flex flex-row justify-between items-center text-left'>
-            <span className='top-1 text-[#FFF] flex ml-1 text-xl'>NOW INDEX</span>
+            <span className='top-1 text-[#FFF] flex ml-1 text-xl'>MESSAGE</span>
             <button className='h-[2rem] w-[2rem] border bg-[#c3c7cc] mr-0.5' onClick={() => modalClose(false)}
               onKeyDown={(e) => handleKeyDown(e)}
             >

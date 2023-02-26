@@ -13,7 +13,29 @@ export const mainCategoryState = atom<MainCategory>({
 export const searchResultState = atom<News>({
   key: 'searchResult',
   default: {
-    lastPage: false,
-    newsItems: []
+    pageNumber: 0,
+    newsItems: [],
+  },
+});
+
+export const nowCategoryState = atom<any>({
+  key: 'nowCategory',
+  default: {
+    traditional: {
+      isTraditional: true,
+      category: {
+        isCnbc: true,
+        isBbc: false,
+        isReuters: false,
+      },
+    },
+    crpyto: {
+      isCrpyto: false,
+      category: {
+        isCoindesk: false,
+        isCointelegraph: false,
+        isCryptoslate: false,
+      },
+    },
   },
 });

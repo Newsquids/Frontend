@@ -8,7 +8,12 @@ import { MainCategory } from 'lib/recoil/stateTypes';
 import { mainCategoryState } from 'lib/recoil/states';
 import { useRecoilState } from 'recoil';
 import { apis } from 'lib/api/axiosUtil';
-import Alert from 'components/layout/header/Alert';
+import Alert from 'components/header/Alert';
+import dynamic from 'next/dynamic';
+
+const ClockWithNoSSr = dynamic(() => import('./Clock'), {
+  ssr: false
+})
 
 const Header = () => {
   const [mainCategory, setMainCategory] = useRecoilState<MainCategory>(mainCategoryState);
@@ -52,7 +57,7 @@ const Header = () => {
             </div>
           </div>
           <div className='w-full h-full flex flex-row justify-end'>
-            <Clock />
+            <ClockWithNoSSr />
             <div id='newsSelectBox' className='w-[9rem] h-full flex flex-col  justify-center items-center text-center gap-1'>
               {FINANCIAL_INDEX.map((value: string, index: number) => (
                 <Fragment key={index}>
