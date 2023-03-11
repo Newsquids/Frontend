@@ -11,7 +11,6 @@ import Pagination from 'components/Pagination';
 
 const Traditional = () => {
   const [selected, setSelected] = useState<string>('CNBC');
-  
   const [category, setCategory] = useState<string>('');
   const [page, setPage] = useState<number>(0);
   const [traditional, setTraditional] = useState<News>();
@@ -67,9 +66,7 @@ const Traditional = () => {
           <div className='ml-[77%]'>
             <Category newsCategory='traditional' setCategory={setCategory} updateValue={handleUpdateToCategory} />
           </div>
-          
         <strong className='text-3xl'>{selected}</strong>
-        
           {traditional?.newsItems.length === 0 ? (
             <NoData/>
           ) : (

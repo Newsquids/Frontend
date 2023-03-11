@@ -2,23 +2,31 @@ import React, { Fragment, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Image from 'next/image';
 import Logo from 'public/img/Logo.png';
-import Clock from './Clock';
 import { FINANCIAL_INDEX } from 'lib/utils/constants';
 import { MainCategory } from 'lib/recoil/stateTypes';
 import { mainCategoryState } from 'lib/recoil/states';
 import { useRecoilState } from 'recoil';
-import { apis } from 'lib/api/axiosUtil';
 import Alert from 'components/header/Alert';
 import dynamic from 'next/dynamic';
+import { apis } from 'lib/api/axiosUtil';
 
 const ClockWithNoSSr = dynamic(() => import('./Clock'), {
-  ssr: false
-})
+  ssr: false,
+});
 
 const Header = () => {
   const [mainCategory, setMainCategory] = useRecoilState<MainCategory>(mainCategoryState);
-  const [message, setMessage] = useState<string>('')
+  const [message, setMessage] = useState<string>('');
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [isLogined, setIsLogined] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (window.localStorage.getItem('access') !== null) {
+      return setIsLogined(false);
+    } else {
+      return setIsLogined(true);
+    }
+  },[])
 
   const handleChangeMainCategory = (isTraditional: boolean) => {
     if (isTraditional) {
@@ -30,16 +38,25 @@ const Header = () => {
     }
   };
 
-  // const getNowFinacialIndex = async () => {
-  //   const nowIndex = await apis.updateFinanceIndex();
-  // };
-
-  // setTimeout(getNowFinacialIndex, 5);
-
   const handleModalOpen = (value: string) => {
-    setMessage(value + ': 10500')
-    setModalOpen(true)
-  }
+    setMessage(value + ': 10500');
+    setModalOpen(true);
+  };
+
+  const handleLoginToGoogle = async () => {
+    const redirectUrl = await apis.signUp();
+    
+    // try {
+    //   window.location.href = redirectUrl;
+    // } catch (error) {
+    //   console.error(error)
+    // }    
+  };
+
+  const handleLogOut = () => {
+    window.localStorage.removeItem('access');
+    alert('LOG OUT SUCCESS');
+  };
 
   return (
     <>
@@ -51,9 +68,16 @@ const Header = () => {
               <Image src={Logo} width={100} height={100} alt='logo' />
               <span>NEWSQUIDS</span>
             </button>
-            <div className='flex flex-row gap-3 text-sm '>
-              <span className='w-full'>SIGN IN</span>
-              <span className='w-full'>SIGN UP</span>
+            <div className='flex flex-row gap-3 text-sm'>
+              {isLogined ? (
+                <button className='w-full' onClick={() => handleLoginToGoogle()}>
+                  SIGN IN
+                </button>
+              ) : (
+                <button className='w-full' onClick={() => handleLogOut()}>
+                  LOG OUT
+                </button>
+              )}
             </div>
           </div>
           <div className='w-full h-full flex flex-row justify-end'>

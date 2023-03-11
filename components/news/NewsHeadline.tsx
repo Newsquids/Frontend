@@ -19,8 +19,8 @@ const NewsHeadline: FC<NewsHeadlineProps> = ({ isTodayNews, newsOriginLink, news
     <section className='w-[90%] h-[15%]'>
       <Link href={newsOriginLink} target='_blank'>
         <div className='w-full h-full flex flex-row justify-between items-center'>
-          {isTodayNews && <div className='w-[13%] h-full border'>logo</div>}
-          <div className={`${isTodayNews ? 'w-[80%]' : 'w-full'} h-full  flex flex-row justify-center items-center border`}>
+          {isTodayNews && <div className='w-[15%] h-full border'>logo</div>}
+          <div className={`${isTodayNews ? 'w-[80%]' : 'w-full'} h-full flex flex-row justify-center items-center border`}>
             <div className='flex justify-start items-center w-[16%] h-full min-w-[120px] min-h-[100px]'>
               <Image src={newsImage ? newsImage : Logo} alt='newsImage' width={800} height={800} className='filter grayscale opacity-15 w-full h-full' />
             </div>
