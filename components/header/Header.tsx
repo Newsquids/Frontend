@@ -17,7 +17,7 @@ const Header = () => {
   const [message, setMessage] = useState<string>('');
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isLogined, setIsLogined] = useState<boolean>(false);
-  const { handleChangeCategory, nowCategory} = useChannel()
+  const { handleChangeCategory, nowCategory, isHome} = useChannel()
 
   useEffect(() => {
     if (window.localStorage.getItem('access') !== null) {
@@ -102,7 +102,7 @@ const Header = () => {
         <div className='w-[14rem] h-10 flex flex-row justify-center items-center absolute top-[14.9rem] left-7 shadow-xl'>
           <button
             className={`w-1/2 border-window95-button-deep-gray border border-r-0 h-full flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline ${
-              nowCategory() === 'Traditional' ? 'bg-window95-button-deep-gray font-bold' : 'bg-window95-button-gray'
+              nowCategory() === 'Traditional' && !isHome() ? 'bg-window95-button-deep-gray font-bold' : 'bg-window95-button-gray'
             }`}
             onClick={() => handleChangeMainCategory(true)}
           >
@@ -110,7 +110,7 @@ const Header = () => {
           </button>
           <button
             className={`w-1/2 border-window95-button-deep-gray border h-full flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline ${
-              nowCategory() === 'Crypto' ? 'bg-window95-button-deep-gray font-bold' : ' bg-window95-button-gray'
+              nowCategory() === 'Crypto' && !isHome() ? 'bg-window95-button-deep-gray font-bold' : ' bg-window95-button-gray'
             }`}
             onClick={() => handleChangeMainCategory(false)}
           >
