@@ -1,6 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useResetRecoilState } from 'recoil';
-import { mainCategoryState } from 'lib/recoil/states';
 import { News, NewsItem } from 'lib/utils/typing';
 import { apis } from 'lib/api/axiosUtil';
 import Layout from 'components/layout/Layout';
@@ -13,14 +11,9 @@ const Home = () => {
   const [page, setPage] = useState<number>(0)
   const [today, setToday] = useState<News>()
   const [totalPage, setTotalPage] = useState<number[]>([])
-  const resetMainCategory = useResetRecoilState(mainCategoryState);
 
   useEffect(() => {
-    resetMainCategory();
-  }, [resetMainCategory]);
-
-  useEffect(() => {
-    getToday()
+    getToday();
   },[page])
 
   const getToday = async () => {
@@ -54,7 +47,7 @@ const Home = () => {
                     newsHeadline={news.newsHeadline}
                     newsCategory={news.newsCategory}
                     newsDate={news.newsDate}
-                    IsBookmarked={news.IsBookmarked}
+                    isBookmarked={news.isBookmarked}
                   />
                 </Fragment>
               ))}

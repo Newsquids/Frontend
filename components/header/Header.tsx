@@ -3,12 +3,10 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Logo from 'public/img/Logo.png';
 import { FINANCIAL_INDEX } from 'lib/utils/constants';
-import { MainCategory } from 'lib/recoil/stateTypes';
-import { mainCategoryState } from 'lib/recoil/states';
-import { useRecoilState } from 'recoil';
 import Alert from 'components/header/Alert';
 import dynamic from 'next/dynamic';
 import { apis } from 'lib/api/axiosUtil';
+import { useChannel } from 'lib/hooks/useChannel';
 
 const ClockWithNoSSr = dynamic(() => import('./Clock'), {
   ssr: false,
@@ -16,10 +14,10 @@ const ClockWithNoSSr = dynamic(() => import('./Clock'), {
 
 const Header = () => {
   const router = useRouter()
-  const [mainCategory, setMainCategory] = useRecoilState<MainCategory>(mainCategoryState);
   const [message, setMessage] = useState<string>('');
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [isLogined, setIsLogined] = useState<boolean>(false);
+  const { handleChangeCategory, nowCategory} = useChannel()
 
   useEffect(() => {
     if (window.localStorage.getItem('access') !== null) {
@@ -31,12 +29,13 @@ const Header = () => {
 
   const handleChangeMainCategory = (isTraditional: boolean) => {
     if (isTraditional) {
-      setMainCategory({ isTraditional: true, isCrypto: false });
+      handleChangeCategory(isTraditional)
       router.push('/traditional');
     } else {
-      setMainCategory({ isTraditional: false, isCrypto: true });
+      handleChangeCategory(isTraditional)
       router.push('/crpyto');
     }
+
   };
 
   const handleModalOpen = (value: string) => {
@@ -48,11 +47,15 @@ const Header = () => {
     const redirectUrl = await apis.signUp();
     if (redirectUrl) {
       window.location.href = redirectUrl;
+    } else {
+      alert('ERROR')
     }
   };
 
   const handleLogOut = () => {
     window.localStorage.removeItem('access');
+    window.localStorage.removeItem('refresh');
+    setIsLogined(false);
     alert('LOG OUT SUCCESS');
   };
 
@@ -99,7 +102,7 @@ const Header = () => {
         <div className='w-[14rem] h-10 flex flex-row justify-center items-center absolute top-[14.9rem] left-7 shadow-xl'>
           <button
             className={`w-1/2 border-window95-button-deep-gray border border-r-0 h-full flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline ${
-              mainCategory.isTraditional ? 'bg-window95-button-deep-gray font-bold' : 'bg-window95-button-gray'
+              nowCategory() === 'Traditional' ? 'bg-window95-button-deep-gray font-bold' : 'bg-window95-button-gray'
             }`}
             onClick={() => handleChangeMainCategory(true)}
           >
@@ -107,7 +110,7 @@ const Header = () => {
           </button>
           <button
             className={`w-1/2 border-window95-button-deep-gray border h-full flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline ${
-              mainCategory.isCrypto ? 'bg-window95-button-deep-gray font-bold' : ' bg-window95-button-gray'
+              nowCategory() === 'Crypto' ? 'bg-window95-button-deep-gray font-bold' : ' bg-window95-button-gray'
             }`}
             onClick={() => handleChangeMainCategory(false)}
           >

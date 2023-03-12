@@ -3,7 +3,6 @@ import { apis } from 'lib/api/axiosUtil';
 import { useRecoilState } from 'recoil';
 import { searchResultState } from 'lib/recoil/states';
 import { useRouter } from 'next/router';
-import Pagination from 'components/Pagination';
 
 const SearchBar = () => {
   const [search, setSearch] = useState<string>('');
@@ -27,10 +26,10 @@ const SearchBar = () => {
   };
 
   return (
-    <div className='w-full flex flex-row justify-center items-center gap-3'>
+    <div className='w-full flex flex-row justify-center items-center gap-3 min-w-[300px] h-10' >
       <div className='flex flex-row justify-end items-end w-full h-full gap-2'>
-        <input className='w-3/5 h-10 outline-none' type='text' onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleKeyDown(e)} />
-        <div className='w-1/6 h-10 flex flex-row justify-start items-center' onClick={() => handleSearchNews()}>
+        <input className='w-3/5 h-10 min-w-[200px] outline-none' type='text' onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => handleKeyDown(e)} />
+        <div className='w-1/6 h-10 flex flex-row justify-start items-center min-w-[50px]' onClick={() => handleSearchNews()}>
           <span>SEARCH</span>
         </div>
       </div>
