@@ -1,45 +1,63 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Logo from 'public/img/Logo.png';
-import Clock from './Clock';
 import { FINANCIAL_INDEX } from 'lib/utils/constants';
-import { MainCategory } from 'lib/recoil/stateTypes';
-import { mainCategoryState } from 'lib/recoil/states';
-import { useRecoilState } from 'recoil';
-import { apis } from 'lib/api/axiosUtil';
 import Alert from 'components/header/Alert';
 import dynamic from 'next/dynamic';
+import { apis } from 'lib/api/axiosUtil';
+import { useChannel } from 'lib/hooks/useChannel';
 
 const ClockWithNoSSr = dynamic(() => import('./Clock'), {
-  ssr: false
-})
+  ssr: false,
+});
 
 const Header = () => {
-  const [mainCategory, setMainCategory] = useRecoilState<MainCategory>(mainCategoryState);
-  const [message, setMessage] = useState<string>('')
+  const router = useRouter()
+  const [message, setMessage] = useState<string>('');
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [isLogined, setIsLogined] = useState<boolean>(false);
+  const { handleChangeCategory, nowCategory} = useChannel()
+
+  useEffect(() => {
+    if (window.localStorage.getItem('access') !== null) {
+      return setIsLogined(false);
+    } else {
+      return setIsLogined(true);
+    }
+  }, []);
 
   const handleChangeMainCategory = (isTraditional: boolean) => {
     if (isTraditional) {
-      setMainCategory({ isTraditional: true, isCrypto: false });
-      Router.push('/traditional');
+      handleChangeCategory(isTraditional)
+      router.push('/traditional');
     } else {
-      setMainCategory({ isTraditional: false, isCrypto: true });
-      Router.push('/crpyto');
+      handleChangeCategory(isTraditional)
+      router.push('/crpyto');
+    }
+
+  };
+
+  const handleModalOpen = (value: string) => {
+    setMessage(value + ': 10500');
+    setModalOpen(true);
+  };
+
+  const handleLoginToGoogle = async () => {
+    const redirectUrl = await apis.signUp();
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+    } else {
+      alert('ERROR')
     }
   };
 
-  // const getNowFinacialIndex = async () => {
-  //   const nowIndex = await apis.updateFinanceIndex();
-  // };
-
-  // setTimeout(getNowFinacialIndex, 5);
-
-  const handleModalOpen = (value: string) => {
-    setMessage(value + ': 10500')
-    setModalOpen(true)
-  }
+  const handleLogOut = () => {
+    window.localStorage.removeItem('access');
+    window.localStorage.removeItem('refresh');
+    setIsLogined(false);
+    alert('LOG OUT SUCCESS');
+  };
 
   return (
     <>
@@ -47,13 +65,20 @@ const Header = () => {
         <header className='w-full h-[30px] bg-window95-deep-gray border-[2px] border-window95-light-gray border-x-0' />
         <section className='w-full h-[230px] flex flex-row justify-between bg-window95-light-gray'>
           <div className='font-bold text-2xl flex flex-col items-center w-52 gap-5 mt-3 ml-[3.5rem]'>
-            <button onClick={() => Router.push('/')}>
+            <button onClick={() => router.push('/')}>
               <Image src={Logo} width={100} height={100} alt='logo' />
               <span>NEWSQUIDS</span>
             </button>
-            <div className='flex flex-row gap-3 text-sm '>
-              <span className='w-full'>SIGN IN</span>
-              <span className='w-full'>SIGN UP</span>
+            <div className='flex flex-row gap-3 text-sm'>
+              {isLogined ? (
+                <button className='w-full' onClick={() => handleLoginToGoogle()}>
+                  SIGN IN
+                </button>
+              ) : (
+                <button className='w-full' onClick={() => handleLogOut()}>
+                  LOG OUT
+                </button>
+              )}
             </div>
           </div>
           <div className='w-full h-full flex flex-row justify-end'>
@@ -77,7 +102,7 @@ const Header = () => {
         <div className='w-[14rem] h-10 flex flex-row justify-center items-center absolute top-[14.9rem] left-7 shadow-xl'>
           <button
             className={`w-1/2 border-window95-button-deep-gray border border-r-0 h-full flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline ${
-              mainCategory.isTraditional ? 'bg-window95-button-deep-gray font-bold' : 'bg-window95-button-gray'
+              nowCategory() === 'Traditional' ? 'bg-window95-button-deep-gray font-bold' : 'bg-window95-button-gray'
             }`}
             onClick={() => handleChangeMainCategory(true)}
           >
@@ -85,7 +110,7 @@ const Header = () => {
           </button>
           <button
             className={`w-1/2 border-window95-button-deep-gray border h-full flex justify-center items-center hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline ${
-              mainCategory.isCrypto ? 'bg-window95-button-deep-gray font-bold' : ' bg-window95-button-gray'
+              nowCategory() === 'Crypto' ? 'bg-window95-button-deep-gray font-bold' : ' bg-window95-button-gray'
             }`}
             onClick={() => handleChangeMainCategory(false)}
           >

@@ -8,6 +8,7 @@ import { News, NewsItem } from 'lib/utils/typing';
 import Category from 'components/Category';
 import NoData from 'components/NoData';
 import Pagination from 'components/Pagination';
+import { useChannel } from 'lib/hooks/useChannel';
 
 const Crypto = () => {
   const [selected, setSelected] = useState<string>('COINDESK');
@@ -15,6 +16,7 @@ const Crypto = () => {
   const [page, setPage] = useState<number>(0);
   const [crypto, setCrypto] = useState<News>();
   const [totalPage, setTotalPage] = useState<number[]>([]);
+  const { nowChannel, handleChangeChannel } = useChannel();
 
   useEffect(() => {
     getCrpyto();
@@ -30,12 +32,12 @@ const Crypto = () => {
     setCrypto(fetchedCrpytoNews);
   };
 
-
-  const handleChangeChannel = async (value: string) => {
+  const handleUpdateChannel = async (value: string) => {
     setPage(0);
     setCategory('');
     setSelected(value);
     const fetchedCrpytoNews: News = await apis.fetchChannelNews(page, value.toLocaleLowerCase(), category);
+    handleChangeChannel(value, false);
     setCrypto(fetchedCrpytoNews);
   };
 
@@ -43,7 +45,6 @@ const Crypto = () => {
     const fetchedCrpytoNews: News = await apis.fetchChannelNews(page, selected.toLowerCase(), newCategory);
     setCrypto(fetchedCrpytoNews);
   };
-
 
   return (
     <Layout>
@@ -53,9 +54,9 @@ const Crypto = () => {
           {CRYPTO_CHANNEL_CATEGORY.map((value: string, index: number) => (
             <Fragment key={index}>
               <button
-                className={`w-48 h-20 border flex justify-center items-center text-xl bg-window95-button-gray border-window95-button-deep-gray hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline shadow-inner
-              ${selected === value ? 'bg-[#bdbdbd]' : 'bg-window95-button-gray'}`}
-                onClick={() => handleChangeChannel(value)}
+                className={`w-48 h-20 border flex justify-center items-center text-xl border-window95-button-deep-gray hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline shadow-inner
+              ${nowChannel(false) === value ? ' bg-window95-button-deep-gray' : 'bg-window95-button-gray'}`}
+                onClick={() => handleUpdateChannel(value)}
               >
                 {value}
               </button>
@@ -82,7 +83,7 @@ const Crypto = () => {
                     newsHeadline={news.newsHeadline}
                     newsCategory={news.newsCategory}
                     newsDate={news.newsDate}
-                    IsBookmarked={news.IsBookmarked}
+                    isBookmarked={news.isBookmarked}
                   />
                 </Fragment>
               ))}

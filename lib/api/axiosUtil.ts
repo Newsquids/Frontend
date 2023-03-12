@@ -1,34 +1,56 @@
 import axios from 'axios';
+import { GoogleCallback } from './axiosType';
 
-const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export const instance = axios.create({
   withCredentials: true,
   baseURL: SERVER_URL,
 });
 
+instance.interceptors.request.use((req) => {
+  if (req.headers && window.localStorage.getItem('access') !== null) {
+    req.headers.Authorization = `Bearer ${window.localStorage.getItem('access')}`;
+  }
+  return req;
+});
+
+instance.interceptors.response.use(
+  (res) => {
+    return res;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && error.response.data == 'ExpiredDate') {
+      const result = await instance.put('/api/user/refresh', {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('access')}`,
+          refresh: `${window.localStorage.getItem('refresh')}`,
+        },
+      });
+      window.localStorage.setItem('access', result.data.access);
+      window.localStorage.setItem('refresh', result.data.refresh);
+
+      originalRequest.headers.Authorization = `Bearer ${window.localStorage.getItem('access')}`;
+      return axios(originalRequest);
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const apis = {
-  signUp: (signUpRequest: any) =>
+  signUp: () =>
     instance
-      .post('/api/user/signup', signUpRequest)
+      .get('/api/user/auth/google')
       .then((res) => {
         return res.data;
       })
       .catch((err) => {
         console.error(err);
       }),
-  signIn: (signInRequest: any) =>
+  googleCallback: (googleCallbackRequest: GoogleCallback ) =>
     instance
-      .post('/api/user/signin', signInRequest)
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        console.error(err);
-      }),
-  updateRefreshToken: (getRefresh: any) =>
-    instance
-      .post('/api/user/refresh', getRefresh)
+      .post('/api/user/auth/google/callback', googleCallbackRequest)
       .then((res) => {
         return res.data;
       })

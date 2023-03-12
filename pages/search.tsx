@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
 import Layout from 'components/layout/Layout';
 import NewsBlock from 'components/news/NewsBlock';
 import NewsHeadline from 'components/news/NewsHeadline';
@@ -28,7 +28,7 @@ const Search = () => {
                 newsHeadline={news.newsHeadline}
                 newsCategory={news.newsCategory}
                 newsDate={news.newsDate}
-                IsBookmarked={news.IsBookmarked}
+                isBookmarked={news.isBookmarked}
               />
             </Fragment>
           ))}

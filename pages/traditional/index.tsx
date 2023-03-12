@@ -8,14 +8,15 @@ import { apis } from 'lib/api/axiosUtil';
 import Category from 'components/Category';
 import NoData from 'components/NoData';
 import Pagination from 'components/Pagination';
+import { useChannel } from 'lib/hooks/useChannel';
 
 const Traditional = () => {
   const [selected, setSelected] = useState<string>('CNBC');
-  
   const [category, setCategory] = useState<string>('');
   const [page, setPage] = useState<number>(0);
   const [traditional, setTraditional] = useState<News>();
   const [totalPage, setTotalPage] = useState<number[]>([])
+  const {nowChannel, handleChangeChannel} = useChannel();
 
   useEffect(() => {
     getTraditional();
@@ -31,11 +32,13 @@ const Traditional = () => {
     setTraditional(fetchedTraditionalNews);
   };
 
-  const handleChangeChannel = async (value: string) => {
+
+  const handleUpdateChannel = async (value: string) => {
     setPage(0);
     setCategory('');
     setSelected(value);
     const fetchedTraditionalNews: News = await apis.fetchChannelNews(page, value.toLocaleLowerCase(), category);
+    handleChangeChannel(value, true)
     setTraditional(fetchedTraditionalNews);
   };
 
@@ -44,6 +47,7 @@ const Traditional = () => {
     setTraditional(fetchedCrpytoNews);
   };
 
+ 
   return (
     <Layout>
       <div className='w-full h-full flex flex-row justify-start items-center'>
@@ -52,10 +56,10 @@ const Traditional = () => {
           {TRADITIONAL_CHANNEL_CATEGORY.map((value: string, index: number) => (
             <Fragment key={index}>
               <button
-                className={`w-48 h-20 border flex justify-center items-center text-xl bg-window95-button-gray border-window95-button-deep-gray hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline shadow-inner ${
-                  selected === value ? 'bg-window95-button-deep-gray' : 'bg-window95-button-gray'
+                className={`w-48 h-20 border flex justify-center items-center text-xl border-window95-button-deep-gray hover:shadow hover:bg-window95-button-deep-gray focus:outline-none focus:shadow-outline shadow-inner ${
+                  nowChannel(true) === value ? 'bg-window95-button-deep-gray' : 'bg-window95-button-gray'
                 }`}
-                onClick={() => handleChangeChannel(value)}
+                onClick={() => handleUpdateChannel(value)}
               >
                 {value}
               </button>
@@ -67,9 +71,7 @@ const Traditional = () => {
           <div className='ml-[77%]'>
             <Category newsCategory='traditional' setCategory={setCategory} updateValue={handleUpdateToCategory} />
           </div>
-          
         <strong className='text-3xl'>{selected}</strong>
-        
           {traditional?.newsItems.length === 0 ? (
             <NoData/>
           ) : (
@@ -83,7 +85,7 @@ const Traditional = () => {
                     newsHeadline={news.newsHeadline}
                     newsCategory={news.newsCategory}
                     newsDate={news.newsDate}
-                    IsBookmarked={news.IsBookmarked}
+                    isBookmarked={news.isBookmarked}
                   />
                 </Fragment>
               ))}

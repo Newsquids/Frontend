@@ -53,7 +53,7 @@ const Category: FC<CategoryProps> = ({ newsCategory, setCategory, updateValue })
         {selectBoxOpen &&
           (newsCategory === 'traditional' ? (
             <div className='flex flex-col w-full h-full'>
-              <div className='absolute top-[2.4rem] z-10 flex flex-col'>
+              <div className='absolute top-[2.45rem] z-10 flex flex-col'>
                 {TRADITIONAL_NEWS_CATEGROY.map((value: string, index: number) => (
                   <Fragment key={index}>
                     <div
@@ -70,7 +70,7 @@ const Category: FC<CategoryProps> = ({ newsCategory, setCategory, updateValue })
             </div>
           ) : (
             <div className='flex flex-col w-full h-full'>
-              <div className='absolute top-[2.4rem] z-10 flex flex-col'>
+              <div className='absolute top-[2.45rem] z-10 flex flex-col'>
                 {CRYPTO_NEWS_CATEGORY.map((value: string, index: number) => (
                   <Fragment key={index}>
                     <div
