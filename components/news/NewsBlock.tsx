@@ -11,8 +11,8 @@ const NewsBlock: FC<NewsProps> = ({ isTodayNews, children }) => {
     <>
       <div
         className={`relative ${
-          isTodayNews ? 'w-[85%]' : 'w-[80%] mx-10'
-        } h-[92%] bg-window95-light-gray flex flex-col justify-center items-center gap-5`}
+          isTodayNews ? 'w-[85%] min-h-[90%]' : 'w-[80%] mx-10'
+        } h-[92%] bg-window95-light-gray flex flex-col justify-center items-center gap-5 min-h-[90%]`}
       >
         
         {children}

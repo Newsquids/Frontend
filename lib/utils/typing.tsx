@@ -10,5 +10,5 @@ export interface NewsItem {
   newsHeadline: string;
   newsCategory: string;
   newsDate: string;
-  IsBookmarked: boolean;
+  isBookmarked: boolean;
 }

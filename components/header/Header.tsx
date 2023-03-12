@@ -44,13 +44,7 @@ const Header = () => {
   };
 
   const handleLoginToGoogle = async () => {
-    const redirectUrl = await apis.signUp();
-    
-    // try {
-    //   window.location.href = redirectUrl;
-    // } catch (error) {
-    //   console.error(error)
-    // }    
+    await apis.signUp();
   };
 
   const handleLogOut = () => {

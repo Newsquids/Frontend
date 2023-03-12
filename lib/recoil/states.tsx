@@ -1,6 +1,6 @@
 import { News } from 'lib/utils/typing';
 import { atom } from 'recoil';
-import { MainCategory } from './stateTypes';
+import { MainCategory, NowCategory } from './stateTypes';
 
 export const mainCategoryState = atom<MainCategory>({
   key: 'mainCategory',
@@ -18,7 +18,7 @@ export const searchResultState = atom<News>({
   },
 });
 
-export const nowCategoryState = atom<any>({
+export const nowCategoryState = atom<NowCategory>({
   key: 'nowCategory',
   default: {
     traditional: {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export const instance = axios.create({
   withCredentials: true,
@@ -21,15 +21,12 @@ instance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (error.response.status === 401 && error.response.data == 'ExpiredDate') {
-      const result = await instance.put(
-        '/api/user/refresh',
-        {
-          headers: {
-            Authorization: `Bearer ${window.localStorage.getItem('access')}`,
-            refresh: `${window.localStorage.getItem('refresh')}`,
-          },
-        }
-      );
+      const result = await instance.put('/api/user/refresh', {
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('access')}`,
+          refresh: `${window.localStorage.getItem('refresh')}`,
+        },
+      });
       window.localStorage.setItem('access', result.data.access);
       window.localStorage.setItem('refresh', result.data.refresh);
 
@@ -44,6 +41,15 @@ export const apis = {
   signUp: () =>
     instance
       .get('/api/user/auth/google')
+      .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        console.error(err);
+      }),
+  googleCallback: (code: string | string[]) =>
+    instance
+      .post('/api/user/auth/google/callback', code)
       .then((res) => {
         return res.data;
       })

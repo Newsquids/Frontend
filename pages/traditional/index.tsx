@@ -30,6 +30,7 @@ const Traditional = () => {
     setTraditional(fetchedTraditionalNews);
   };
 
+
   const handleChangeChannel = async (value: string) => {
     setPage(0);
     setCategory('');
@@ -80,7 +81,7 @@ const Traditional = () => {
                     newsHeadline={news.newsHeadline}
                     newsCategory={news.newsCategory}
                     newsDate={news.newsDate}
-                    IsBookmarked={news.IsBookmarked}
+                    isBookmarked={news.isBookmarked}
                   />
                 </Fragment>
               ))}

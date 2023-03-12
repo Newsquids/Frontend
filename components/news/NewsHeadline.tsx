@@ -11,10 +11,10 @@ interface NewsHeadlineProps {
   newsHeadline: string;
   newsCategory: string;
   newsDate: string;
-  IsBookmarked: boolean;
+  isBookmarked: boolean;
 }
 
-const NewsHeadline: FC<NewsHeadlineProps> = ({ isTodayNews, newsOriginLink, newsImage, newsHeadline, newsCategory, newsDate, IsBookmarked }) => {
+const NewsHeadline: FC<NewsHeadlineProps> = ({ isTodayNews, newsOriginLink, newsImage, newsHeadline, newsCategory, newsDate, isBookmarked }) => {
   return (
     <section className='w-[90%] h-[15%]'>
       <Link href={newsOriginLink} target='_blank'>
