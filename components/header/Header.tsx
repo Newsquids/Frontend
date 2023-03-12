@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Logo from 'public/img/Logo.png';
 import { FINANCIAL_INDEX } from 'lib/utils/constants';
@@ -15,10 +15,11 @@ const ClockWithNoSSr = dynamic(() => import('./Clock'), {
 });
 
 const Header = () => {
+  const router = useRouter()
   const [mainCategory, setMainCategory] = useRecoilState<MainCategory>(mainCategoryState);
   const [message, setMessage] = useState<string>('');
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [isLogined, setIsLogined] = useState<boolean>(false)
+  const [isLogined, setIsLogined] = useState<boolean>(false);
 
   useEffect(() => {
     if (window.localStorage.getItem('access') !== null) {
@@ -26,15 +27,15 @@ const Header = () => {
     } else {
       return setIsLogined(true);
     }
-  },[])
+  }, []);
 
   const handleChangeMainCategory = (isTraditional: boolean) => {
     if (isTraditional) {
       setMainCategory({ isTraditional: true, isCrypto: false });
-      Router.push('/traditional');
+      router.push('/traditional');
     } else {
       setMainCategory({ isTraditional: false, isCrypto: true });
-      Router.push('/crpyto');
+      router.push('/crpyto');
     }
   };
 
@@ -44,7 +45,10 @@ const Header = () => {
   };
 
   const handleLoginToGoogle = async () => {
-    await apis.signUp();
+    const redirectUrl = await apis.signUp();
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+    }
   };
 
   const handleLogOut = () => {
@@ -58,7 +62,7 @@ const Header = () => {
         <header className='w-full h-[30px] bg-window95-deep-gray border-[2px] border-window95-light-gray border-x-0' />
         <section className='w-full h-[230px] flex flex-row justify-between bg-window95-light-gray'>
           <div className='font-bold text-2xl flex flex-col items-center w-52 gap-5 mt-3 ml-[3.5rem]'>
-            <button onClick={() => Router.push('/')}>
+            <button onClick={() => router.push('/')}>
               <Image src={Logo} width={100} height={100} alt='logo' />
               <span>NEWSQUIDS</span>
             </button>

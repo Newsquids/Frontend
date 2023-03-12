@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { GoogleCallback } from './axiosType';
 
 const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -47,9 +48,9 @@ export const apis = {
       .catch((err) => {
         console.error(err);
       }),
-  googleCallback: (code: string | string[]) =>
+  googleCallback: (googleCallbackRequest: GoogleCallback ) =>
     instance
-      .post('/api/user/auth/google/callback', code)
+      .post('/api/user/auth/google/callback', googleCallbackRequest)
       .then((res) => {
         return res.data;
       })

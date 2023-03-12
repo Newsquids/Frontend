@@ -1,3 +1,4 @@
+import { GoogleCallback, GoogleCallbackResponse } from 'lib/api/axiosType';
 import { apis } from 'lib/api/axiosUtil';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -7,13 +8,24 @@ const GoogleAuthCallbackPage = () => {
   const { code } = router.query;
 
   useEffect(() => {
-    if (code) {
-      const googleCallback = apis.googleCallback(code);
-      console.log(googleCallback);
-    } else {
-      alert('LOGIN FAILED');
-    }
+    requestGoogleCallBack();
   }, [code]);
+
+  const requestGoogleCallBack = async () => {
+    if (code) {
+      const googleCallbackRequest: GoogleCallback = {
+        code: code,
+      };
+      const googleCallbackResponse: GoogleCallbackResponse = await apis.googleCallback(googleCallbackRequest);
+      if (googleCallbackResponse) {
+        window.localStorage.setItem('access', googleCallbackResponse.access);
+        window.localStorage.setItem('refresh', googleCallbackResponse.refresh);
+        router.push('/');
+      } else {
+        router.push('/');
+      }
+    }
+  };
 
   return (
     <div>
