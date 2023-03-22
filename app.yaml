@@ -1,1 +1,20 @@
-runtime: nodejs18
+runtime: nodejs14
+
+handlers:
+  # Serve all static files with Cache-Control headers for optimal performance.
+  - url: /(.+\.(js|css|png|jpg|jpeg|gif|svg|ico|json))$
+    static_files: build/\1
+    upload: build/(.+)
+
+  # Next.js pages
+  - url: /.*
+    script: auto
+
+  # Redirect HTTP to HTTPS
+  - url: /.*
+    secure: always
+    redirect_http_response_code: 301
+
+env_variables:
+  # Set the custom domain for your application
+  NEXT_PUBLIC_SERVER_URL: https://Newsquids.co.kr
