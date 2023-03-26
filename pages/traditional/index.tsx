@@ -17,6 +17,7 @@ const Traditional = () => {
   const [traditional, setTraditional] = useState<News>();
   const [totalPage, setTotalPage] = useState<number[]>([])
   const {nowChannel, handleChangeChannel} = useChannel();
+  const [channel, setChannel] = useState<string>('')
 
   useEffect(() => {
     getTraditional();
@@ -39,6 +40,7 @@ const Traditional = () => {
     setSelected(value);
     const fetchedTraditionalNews: News = await apis.fetchChannelNews(page, value.toLocaleLowerCase(), category);
     handleChangeChannel(value, true)
+    setChannel(value)
     setTraditional(fetchedTraditionalNews);
   };
 
@@ -47,7 +49,6 @@ const Traditional = () => {
     setTraditional(fetchedCrpytoNews);
   };
 
- 
   return (
     <Layout>
       <div className='w-full h-full flex flex-row justify-start items-center'>
@@ -66,7 +67,6 @@ const Traditional = () => {
             </Fragment>
           ))}
         </div>
-        
         <NewsBlock isTodayNews={false}>
           <div className='ml-[77%]'>
             <Category newsCategory='traditional' setCategory={setCategory} updateValue={handleUpdateToCategory} />
