@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import Image from 'next/image';
-import Logo from '../../public/img/Logo.png'
+import NoImage from '../../public/img/NoImage.png'
 
 interface NewsHeadlineProps {
   isTodayNews: boolean
@@ -22,7 +22,12 @@ const NewsHeadline: FC<NewsHeadlineProps> = ({ isTodayNews, newsOriginLink, news
         <div className='w-full h-full flex flex-row justify-center items-center gap-2'>
           <div className={`w-full h-full flex flex-row justify-center items-center border max-w-[1600px]`}>
             <div className='flex justify-start items-start h-full max-w-[160px] min-h-[100px] ml-0'>
-              <Image src={newsImage ? newsImage : Logo} alt='newsImage' width={800} height={800} className='filter grayscale opacity-15 w-full h-full ml-0' />
+              {newsImage ? (
+                <Image src={newsImage} alt='newsImage' width={800} height={800} className='filter grayscale opacity-15 h-full ml-0' priority quality={10}/>
+              ) : (
+                <Image src={NoImage} alt='NoData' width={800} height={800} className='filter grayscale opacity-15 h-full' />
+              )}
+              
             </div>
             <div className='relative w-[90%] h-full'>
               <div className='flex flex-col justify-center items-start gap-3 p-2'>

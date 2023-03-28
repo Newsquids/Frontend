@@ -14,6 +14,7 @@ const Clock = () => {
   }, []);
 
   return (
+    
     <div className='w-full flex flex-col gap-10 justify-center items-end'>
       <div id='clock' className='w-full h-20 flex flex-row justify-end items-center gap-5'>
         <div className='flex flex-col'>
@@ -25,7 +26,9 @@ const Clock = () => {
           <span>{estTime}</span>
         </div>
       </div>
+      
       <SearchBar/>
+      
     </div>
   );
 };
