@@ -23,13 +23,13 @@ const NewsHeadline: FC<NewsHeadlineProps> = ({ isTodayNews, newsOriginLink, news
           <div className={`w-full h-full flex flex-row justify-center items-center border max-w-[1600px]`}>
             <div className='flex justify-start items-start h-full max-w-[160px] min-h-[100px] ml-0'>
               {newsImage ? (
-                <Image src={newsImage} alt='newsImage' width={800} height={800} className='filter grayscale opacity-15 h-full ml-0' priority quality={10}/>
+                <Image src={newsImage} alt='newsImage' width={800} height={800} className='filter grayscale opacity-15 h-full ml-0' quality={5}/>
               ) : (
                 <Image src={NoImage} alt='NoData' width={800} height={800} className='filter grayscale opacity-15 h-full' />
               )}
               
             </div>
-            <div className='relative w-[90%] h-full'>
+            <div className='relative w-[90%] h-full' id={newsHeadline}>
               <div className='flex flex-col justify-center items-start gap-3 p-2'>
               <em>{isTodayNews ? `${newsChannel?.toUpperCase()} /  HEADLINE` : 'HEADLINE'} </em>
               <h1 className='md:text-md lg:text-lg text-left'>{newsHeadline}</h1>

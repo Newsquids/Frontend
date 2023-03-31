@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 const SearchBar = () => {
   const [search, setSearch] = useState<string>('');
   const [page, setPage] = useState<number>(0);
-  const  setSeachValue = useSetRecoilState(searchValueState);
+  const setSeachValue = useSetRecoilState(searchValueState);
   const router = useRouter();
 
   const handleSearchNews = () => {

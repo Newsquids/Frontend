@@ -8,10 +8,8 @@ import { searchValueState } from 'lib/recoil/states';
 import { apis } from 'lib/api/axiosUtil';
 import NoData from 'components/NoData';
 import Pagination from 'components/Pagination';
-import { useRouter } from 'next/router';
 
 const Search = () => {
-  const router = useRouter();
   const searchValue = useRecoilValue(searchValueState); 
   const [totalPage, setTotalPage] = useState<number[]>([]);
   const [searchResult, setSearchResult] = useState<News>()
@@ -19,7 +17,7 @@ const Search = () => {
 
   useEffect(() => {
     getSearchResult()
-  },[page])
+  },[page, searchValue])
 
   const getSearchResult = async () => {
     const searchedNews:News = await apis.fetchSearchNews(page, searchValue);
