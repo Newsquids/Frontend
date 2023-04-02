@@ -17,6 +17,7 @@ const Crypto = () => {
   const [crypto, setCrypto] = useState<News>();
   const [totalPage, setTotalPage] = useState<number[]>([]);
   const { nowChannel, handleChangeChannel } = useChannel();
+  const [channel, setChannel] = useState<string>('')
 
   useEffect(() => {
     getCrpyto();
@@ -38,6 +39,7 @@ const Crypto = () => {
     setSelected(value);
     const fetchedCrpytoNews: News = await apis.fetchChannelNews(page, value.toLocaleLowerCase(), category);
     handleChangeChannel(value, false);
+    setChannel(value)
     setCrypto(fetchedCrpytoNews);
   };
 

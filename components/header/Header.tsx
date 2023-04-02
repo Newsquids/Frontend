@@ -39,7 +39,7 @@ const Header = () => {
   };
 
   const handleModalOpen = (value: string) => {
-    setMessage(value + ': 10500');
+    setMessage('Coming soon');
     setModalOpen(true);
   };
 
@@ -72,7 +72,7 @@ const Header = () => {
             <div className='flex flex-row gap-3 text-sm'>
               {isLogined ? (
                 <button className='w-full' onClick={() => handleLoginToGoogle()}>
-                  SIGN IN
+                  SIGN IN WITH GOOGLE
                 </button>
               ) : (
                 <button className='w-full' onClick={() => handleLogOut()}>

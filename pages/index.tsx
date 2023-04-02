@@ -52,6 +52,7 @@ const Home = () => {
                   <Fragment key={index}>
                     <NewsHeadline
                       isTodayNews
+                      newsChannel={news.newsChannel}
                       newsOriginLink={news.newsOriginLink}
                       newsImage={news.newsImage}
                       newsHeadline={news.newsHeadline}
