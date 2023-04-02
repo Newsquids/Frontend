@@ -39,7 +39,7 @@ const Header = () => {
   };
 
   const handleModalOpen = (value: string) => {
-    setMessage(value + ': 10500');
+    setMessage('Coming soon');
     setModalOpen(true);
   };
 
