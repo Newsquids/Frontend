@@ -16,18 +16,18 @@ const Search = () => {
   const [page, setPage] = useState<number>(0)
 
   useEffect(() => {
+    const getSearchResult = async () => {
+      const searchedNews:News = await apis.fetchSearchNews(page, searchValue);
+      let newPages: number[] = [];
+      for (let i = 0; i < searchedNews.pageNumber; i++) {
+        newPages.push(i + 1);
+      }
+      setTotalPage(newPages)
+      setSearchResult(searchedNews);
+    };
     getSearchResult()
   },[page, searchValue])
 
-  const getSearchResult = async () => {
-    const searchedNews:News = await apis.fetchSearchNews(page, searchValue);
-    let newPages: number[] = [];
-    for (let i = 0; i < searchedNews.pageNumber; i++) {
-      newPages.push(i + 1);
-    }
-    setTotalPage(newPages)
-    setSearchResult(searchedNews);
-  };
 
 
   return (
