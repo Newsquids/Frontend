@@ -6,9 +6,9 @@ export const useChannel = () => {
   const handleChangeCategory = (isTraditional: boolean) => {
     if (typeof window !== 'undefined') {
       if (isTraditional) {
-        window.sessionStorage.setItem('categroy', 'Traditional');
+        window.sessionStorage.setItem('category', 'Traditional');
       } else {
-        window.sessionStorage.setItem('categroy', 'Crypto');
+        window.sessionStorage.setItem('category', 'Crypto');
       }
     }
   };
@@ -34,7 +34,7 @@ export const useChannel = () => {
 
   const nowCategory = () => {
     if (typeof window !== 'undefined') {
-      return window.sessionStorage.getItem('categroy');
+      return window.sessionStorage.getItem('category');
     }
   };
 

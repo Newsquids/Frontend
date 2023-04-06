@@ -11,26 +11,27 @@ import Pagination from 'components/Pagination';
 import { useChannel } from 'lib/hooks/useChannel';
 
 const Traditional = () => {
-  const [selected, setSelected] = useState<string>('CNBC');
+  const {nowChannel, handleChangeChannel} = useChannel();
+  const [selected, setSelected] = useState<string>(String(nowChannel(true)));
   const [category, setCategory] = useState<string>('');
   const [page, setPage] = useState<number>(0);
   const [traditional, setTraditional] = useState<News>();
   const [totalPage, setTotalPage] = useState<number[]>([])
-  const {nowChannel, handleChangeChannel} = useChannel();
+  const [channel, setChannel] = useState<string>('')
 
   useEffect(() => {
+    const getTraditional = async () => {
+      const fetchedTraditionalNews: News = await apis.fetchChannelNews(page, selected.toLowerCase(), category);
+      let newPages: number[] = [];
+      for (let i = 0; i < fetchedTraditionalNews.pageNumber; i++) {
+        newPages.push(i + 1);
+      }
+      setTotalPage(newPages);
+      setTraditional(fetchedTraditionalNews);
+    };
     getTraditional();
-  }, [page]);
+  }, [page, category, selected]);
 
-  const getTraditional = async () => {
-    const fetchedTraditionalNews: News = await apis.fetchChannelNews(page, selected.toLowerCase(), category);
-    let newPages: number[] = [];
-    for (let i = 0; i < fetchedTraditionalNews.pageNumber; i++) {
-      newPages.push(i + 1);
-    }
-    setTotalPage(newPages);
-    setTraditional(fetchedTraditionalNews);
-  };
 
 
   const handleUpdateChannel = async (value: string) => {
@@ -39,6 +40,7 @@ const Traditional = () => {
     setSelected(value);
     const fetchedTraditionalNews: News = await apis.fetchChannelNews(page, value.toLocaleLowerCase(), category);
     handleChangeChannel(value, true)
+    setChannel(value)
     setTraditional(fetchedTraditionalNews);
   };
 
@@ -47,7 +49,6 @@ const Traditional = () => {
     setTraditional(fetchedCrpytoNews);
   };
 
- 
   return (
     <Layout>
       <div className='w-full h-full flex flex-row justify-start items-center'>
@@ -66,7 +67,6 @@ const Traditional = () => {
             </Fragment>
           ))}
         </div>
-        
         <NewsBlock isTodayNews={false}>
           <div className='ml-[77%]'>
             <Category newsCategory='traditional' setCategory={setCategory} updateValue={handleUpdateToCategory} />

@@ -14,18 +14,18 @@ const Home = () => {
   const [totalPage, setTotalPage] = useState<number[]>([]);
 
   useEffect(() => {
+    const getToday = async () => {
+      const fetchedTodayNews: News = await apis.fetchTodayNews(page);
+      let newPages: number[] = [];
+      for (let i = 0; i < fetchedTodayNews.pageNumber; i++) {
+        newPages.push(i + 1);
+      }
+      setTotalPage(newPages);
+      setToday(fetchedTodayNews);
+    };
     getToday();
   }, [page]);
 
-  const getToday = async () => {
-    const fetchedTodayNews: News = await apis.fetchTodayNews(page);
-    let newPages: number[] = [];
-    for (let i = 0; i < fetchedTodayNews.pageNumber; i++) {
-      newPages.push(i + 1);
-    }
-    setTotalPage(newPages);
-    setToday(fetchedTodayNews);
-  };
 
   return (
     <>
@@ -52,6 +52,7 @@ const Home = () => {
                   <Fragment key={index}>
                     <NewsHeadline
                       isTodayNews
+                      newsChannel={news.newsChannel}
                       newsOriginLink={news.newsOriginLink}
                       newsImage={news.newsImage}
                       newsHeadline={news.newsHeadline}
