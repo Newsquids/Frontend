@@ -11,27 +11,26 @@ import Pagination from 'components/Pagination';
 import { useChannel } from 'lib/hooks/useChannel';
 
 const Crypto = () => {
-  const [selected, setSelected] = useState<string>('COINDESK');
+  const { nowChannel, handleChangeChannel } = useChannel();
+  const [selected, setSelected] = useState<string>(String(nowChannel(false)));
   const [category, setCategory] = useState<string>('');
   const [page, setPage] = useState<number>(0);
   const [crypto, setCrypto] = useState<News>();
   const [totalPage, setTotalPage] = useState<number[]>([]);
-  const { nowChannel, handleChangeChannel } = useChannel();
-  const [channel, setChannel] = useState<string>('')
+  const [channel, setChannel] = useState<string>('');
 
   useEffect(() => {
+    const getCrpyto = async () => {
+      const fetchedCrpytoNews: News = await apis.fetchChannelNews(page, selected.toLowerCase(), category);
+      let newPages: number[] = [];
+      for (let i = 0; i < fetchedCrpytoNews.pageNumber; i++) {
+        newPages.push(i + 1);
+      }
+      setTotalPage(newPages);
+      setCrypto(fetchedCrpytoNews);
+    };
     getCrpyto();
-  }, [page]);
-
-  const getCrpyto = async () => {
-    const fetchedCrpytoNews: News = await apis.fetchChannelNews(page, selected.toLowerCase(), category);
-    let newPages: number[] = [];
-    for (let i = 0; i < fetchedCrpytoNews.pageNumber; i++) {
-      newPages.push(i + 1);
-    }
-    setTotalPage(newPages);
-    setCrypto(fetchedCrpytoNews);
-  };
+  }, [page, category, selected]);
 
   const handleUpdateChannel = async (value: string) => {
     setPage(0);
@@ -39,7 +38,7 @@ const Crypto = () => {
     setSelected(value);
     const fetchedCrpytoNews: News = await apis.fetchChannelNews(page, value.toLocaleLowerCase(), category);
     handleChangeChannel(value, false);
-    setChannel(value)
+    setChannel(value);
     setCrypto(fetchedCrpytoNews);
   };
 

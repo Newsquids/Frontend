@@ -11,27 +11,27 @@ import Pagination from 'components/Pagination';
 import { useChannel } from 'lib/hooks/useChannel';
 
 const Traditional = () => {
-  const [selected, setSelected] = useState<string>('CNBC');
+  const {nowChannel, handleChangeChannel} = useChannel();
+  const [selected, setSelected] = useState<string>(String(nowChannel(true)));
   const [category, setCategory] = useState<string>('');
   const [page, setPage] = useState<number>(0);
   const [traditional, setTraditional] = useState<News>();
   const [totalPage, setTotalPage] = useState<number[]>([])
-  const {nowChannel, handleChangeChannel} = useChannel();
   const [channel, setChannel] = useState<string>('')
 
   useEffect(() => {
+    const getTraditional = async () => {
+      const fetchedTraditionalNews: News = await apis.fetchChannelNews(page, selected.toLowerCase(), category);
+      let newPages: number[] = [];
+      for (let i = 0; i < fetchedTraditionalNews.pageNumber; i++) {
+        newPages.push(i + 1);
+      }
+      setTotalPage(newPages);
+      setTraditional(fetchedTraditionalNews);
+    };
     getTraditional();
-  }, [page]);
+  }, [page, category, selected]);
 
-  const getTraditional = async () => {
-    const fetchedTraditionalNews: News = await apis.fetchChannelNews(page, selected.toLowerCase(), category);
-    let newPages: number[] = [];
-    for (let i = 0; i < fetchedTraditionalNews.pageNumber; i++) {
-      newPages.push(i + 1);
-    }
-    setTotalPage(newPages);
-    setTraditional(fetchedTraditionalNews);
-  };
 
 
   const handleUpdateChannel = async (value: string) => {
