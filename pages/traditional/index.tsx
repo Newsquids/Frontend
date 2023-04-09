@@ -51,7 +51,7 @@ const Traditional = () => {
 
   return (
     <Layout>
-      <div className='w-full h-full flex flex-row justify-start items-center'>
+      <div className='w-full h-full flex flex-row justify-center items-center'>
         <div className='w-9 h-full' />
         <div className='w-52 h-full flex flex-col justify-center items-center gap-10'>
           {TRADITIONAL_CHANNEL_CATEGORY.map((value: string, index: number) => (

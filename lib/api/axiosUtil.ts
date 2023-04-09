@@ -68,7 +68,7 @@ export const apis = {
       }),
   updateBookMark: (newsId: number) =>
     instance
-      .post(`/api/news/${newsId}`)
+      .post(`/api/news/bookmark/${newsId}`)
       .then((res) => {
         return res.data;
       })

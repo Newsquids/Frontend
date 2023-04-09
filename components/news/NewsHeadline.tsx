@@ -47,17 +47,15 @@ const NewsHeadline: FC<NewsHeadlineProps> = ({
               )}
             </div>
             <div className='relative w-[90%] h-full' id={newsHeadline}>
-              <div className='flex flex-col justify-center items-start gap-3 p-2'>
-                <div className='w-full flex flex-row justify-between'>
-                  <em>{isTodayNews ? `${newsChannel?.toUpperCase()} /  HEADLINE` : 'HEADLINE'} </em>
+              <div className='flex flex-col justify-center items-start gap-3 p-2 relative'>
+                  <em>{isTodayNews ? `${newsChannel?.toUpperCase()} /  HEADLINE` : 'HEADLINE'}</em>
                   {isBookmarked ? (
-                    <button className='text-3xl' onClick={() => handleClickBookmark()}>
+                    <button className='text-3xl z-30 absolute right-1'>
                       ★
                     </button>
                   ) : (
-                    <button className='text-3xl'>☆</button>
+                    <button className='text-3xl z-30 absolute right-1' onClick={() => handleClickBookmark()}>☆</button>
                   )}
-                </div>
                 <h1 className='md:text-md lg:text-lg text-left'>{newsHeadline}</h1>
               </div>
               <div className='absolute bottom-1 right-2'>
