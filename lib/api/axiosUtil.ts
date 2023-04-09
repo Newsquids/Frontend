@@ -57,7 +57,7 @@ export const apis = {
       .catch((err) => {
         console.error(err);
       }),
-  updateFinanceIndex: () =>
+  fetchFinanceIndex: () =>
     instance
       .get('/api/index')
       .then((res) => {

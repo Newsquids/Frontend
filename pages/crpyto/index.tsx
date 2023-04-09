@@ -78,6 +78,7 @@ const Crypto = () => {
               {crypto?.newsItems.map((news: NewsItem, index: number) => (
                 <Fragment key={index}>
                   <NewsHeadline
+                  newsId={news.newsId}
                     isTodayNews={false}
                     newsOriginLink={news.newsOriginLink}
                     newsImage={news.newsImage}

@@ -80,6 +80,7 @@ const Traditional = () => {
                 <Fragment key={index}>
                   <NewsHeadline
                     isTodayNews={false}
+                    newsId={news.newsId}
                     newsOriginLink={news.newsOriginLink}
                     newsImage={news.newsImage}
                     newsHeadline={news.newsHeadline}
