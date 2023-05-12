@@ -16,9 +16,7 @@ const NewsBlock: FC<NewsProps> = ({ isTodayNews, children }) => {
         max-w-[1800px]
         `}
       >
-        
         {children}
-        
       </div>
     </>
   );

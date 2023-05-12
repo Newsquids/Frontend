@@ -55,6 +55,7 @@ const Header = () => {
   const handleLogOut = () => {
     window.localStorage.removeItem('access');
     window.localStorage.removeItem('refresh');
+    router.push('/')
     setIsLogined(false);
     alert('LOG OUT SUCCESS');
   };

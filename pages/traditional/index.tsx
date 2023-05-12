@@ -33,7 +33,6 @@ const Traditional = () => {
   }, [page, category, selected]);
 
 
-
   const handleUpdateChannel = async (value: string) => {
     setPage(0);
     setCategory('');
